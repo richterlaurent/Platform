@@ -1,0 +1,49 @@
+{# src/OC/CoreBundle/Resources/views/Main/home.html.twig #}
+
+{% extends "OCCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    Accueil - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <h1>Accueil</h1>
+
+    <hr>
+
+    {% block ocplatform_body %}
+
+        {% if app.session.flashbag.has('info') %}
+
+            {% for flash_message in app.session.flashbag.get('info') %}
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <p>Message flash : {{ flash_message }}</p>
+                    <a href="{{ path('oc_core_homepage') }}">Retour à l'accueil</a>
+                </div>
+            {% endfor %}
+
+        {% else %}
+            <h3>Nos 3 dernières annonces :</h3>
+            <ul>
+                {% for advert in listAdverts %}
+                    <li>
+                        <a href="{{ path('oc_platform_view', {'id': advert.id }) }}">
+                            {{ advert.title }}
+                        </a>
+                        par {{ advert.author }}
+                        le {{ advert.date|date('d/m/Y') }}
+                    </li>
+                {% else %}
+                    <li>Pas (encore!) d'annonce</li>
+                {% endfor %}
+            </ul>
+
+        {% endif %}
+
+    {% endblock %}
+
+
+
+
+{% endblock %}

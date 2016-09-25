@@ -63,7 +63,7 @@ class AdvertController extends Controller
     {
 
         $antispam = $this->container->get('oc_platform.antispam');
-            $text = '...';
+            $text = "Bonjour je suis nouveau sur cette platform et je trouve qu'elle fonctionne à merveille! Bravo.. Haha..";
 
         if($spam = $antispam->isSpam($text)){
             throw new \Exception('Votre message a été détecté comme spam.');
