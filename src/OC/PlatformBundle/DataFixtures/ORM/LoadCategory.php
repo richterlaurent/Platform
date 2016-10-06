@@ -4,11 +4,12 @@
 
 namespace OC\PlatformBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use OC\PlatformBundle\Entity\Category;
 
-class LoadCategory implements FixtureInterface
+class LoadCategory extends AbstractFixture implements OrderedFixtureInterface
 {
 
     public function load(ObjectManager $manager)
@@ -29,6 +30,10 @@ class LoadCategory implements FixtureInterface
         }
 
         $manager->flush();
+    }
+
+    public function getOrder(){
+        return 2;
     }
 
 }

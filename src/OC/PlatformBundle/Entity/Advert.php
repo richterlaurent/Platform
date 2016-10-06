@@ -83,6 +83,11 @@ class Advert
     private $applications;
 
     /**
+     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\AdvertSkill", mappedBy="advert")
+     */
+    private $advertSkills;
+
+    /**
      * @ORM\Column(name="nb_applications", type="integer")
      */
     private $nbApplications = 0;
@@ -245,10 +250,9 @@ class Advert
      *
      * @return Advert
      */
-    public function setImage(\OC\PlatformBundle\Entity\Image $image = null)
+    public function setImage(Image $image = null)
     {
         $this->image = $image;
-
         return $this;
     }
 
@@ -269,7 +273,7 @@ class Advert
      *
      * @return Advert
      */
-    public function addCategory(\OC\PlatformBundle\Entity\Category $category)
+    public function addCategory(Category $category)
     {
         $this->categories[] = $category;
 
@@ -281,7 +285,7 @@ class Advert
      *
      * @param \OC\PlatformBundle\Entity\Category $category
      */
-    public function removeCategory(\OC\PlatformBundle\Entity\Category $category)
+    public function removeCategory(Category $category)
     {
         $this->categories->removeElement($category);
     }
@@ -305,7 +309,7 @@ class Advert
      *
      * @return Advert
      */
-    public function addApplication(\OC\PlatformBundle\Entity\Application $application)
+    public function addApplication(Application $application)
     {
         $this->applications[] = $application;
 
@@ -319,7 +323,7 @@ class Advert
      *
      * @param \OC\PlatformBundle\Entity\Application $application
      */
-    public function removeApplication(\OC\PlatformBundle\Entity\Application $application)
+    public function removeApplication(Application $application)
     {
         $this->applications->removeElement($application);
     }
@@ -423,5 +427,39 @@ class Advert
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Add advertSkill
+     *
+     * @param \OC\PlatformBundle\Entity\AdvertSkill $advertSkill
+     *
+     * @return Advert
+     */
+    public function addAdvertSkill(AdvertSkill $advertSkill)
+    {
+        $this->advertSkills[] = $advertSkill;
+
+        return $this;
+    }
+
+    /**
+     * Remove advertSkill
+     *
+     * @param \OC\PlatformBundle\Entity\AdvertSkill $advertSkill
+     */
+    public function removeAdvertSkill(AdvertSkill $advertSkill)
+    {
+        $this->advertSkills->removeElement($advertSkill);
+    }
+
+    /**
+     * Get advertSkills
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAdvertSkills()
+    {
+        return $this->advertSkills;
     }
 }

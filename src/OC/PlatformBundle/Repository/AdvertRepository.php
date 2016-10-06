@@ -2,9 +2,7 @@
 
 namespace OC\PlatformBundle\Repository;
 
-
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  * AdvertRepository
@@ -14,40 +12,27 @@ use Doctrine\ORM\QueryBuilder;
  */
 class AdvertRepository extends EntityRepository
 {
-
-    public function myFindAll(){
-        return $this->createQueryBuilder('a')->getQuery()->getResult();
+    public function getAdverts(){
+        $qb = $this->createQueryBuilder('a')
+            ->leftJoin('a.image','i')->addSelect('i')
+            ->leftJoin('a.categories','c')->addSelect('c')
+            ->leftJoin('a.advertSkills','advs')->addSelect('advs')
+            ->orderBy('a.date', 'desc');
+        return $qb;
     }
 
-    public function myFindOne($id){
-        $queryBuilder = $this->_em->createQueryBuilder('a');
-        $queryBuilder->where('a.id = :id')->setParameter('id',$id);
-        return $queryBuilder->getQuery()->getResult();
-    }
-
-    public function findByAuthorAndDate($author, $date){
-        $queryBuilder = $this->_em->createQueryBuilder('a');
-        $queryBuilder->where('a.author = :author')->setParameter('author', $author)
-            ->andWhere('a.date < :date')->setParameter('date',$date)
-            ->orderBy('a.date', 'DESC');
-        return $queryBuilder->getQuery()->getResult();
-    }
-
-    public function whereCurrentYear(QueryBuilder $queryBuilder){
-        $queryBuilder->andWhere('a.date BETWEEN :start AND :end')
-            ->setParameter('start', new \DateTime(date('Y').'-01-01'))
-            ->setParameter('end',new \Datetime(date('Y').'-12-31'));
-    }
-
-    public function myFind(){
-        $queryBuilder = $this->_em->createQueryBuilder('a');
-        $queryBuilder->where('a.author = :author')->setParameter('author','Alexandre');
-        $this->whereCurrentYear($queryBuilder);
-        $queryBuilder->orderBy('a.date', 'DESC');
-        return $queryBuilder->getQuery()->getResult();
+    // return a Query Builder selecting every advert (with advert skills and categories)
+    // that has no application at all
+    public function getAdvertsWithoutApplicationQueryBuilder(){
+        $qb = $this->createQueryBuilder('a')
+            ->leftJoin('a.advertSkills','advs')->addSelect('advs')
+            ->leftJoin('a.categories','c')->addSelect('c')
+            ->where('a.nbApplications = 0');
+        return $qb;
     }
 
 
+    // unused function but interesting example of expr() use =>
     public function getAdvertWithCategories(array $categoryNames){
         $qb = $this->createQueryBuilder('a');
         $qb->innerJoin('a.categories', 'c')->addSelect('c');

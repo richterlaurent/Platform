@@ -10,18 +10,23 @@
     <h2>Liste des annonces</h2>
 
     <ul>
-        {% for advert in listAdverts %}
+        {% for advert in pagination %}
             <li>
-                <a href="{{ path('oc_platform_view', {'id': advert.id }) }}">
+                <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">
                     {{ advert.title }}
                 </a>
                 par {{ advert.author }}
-                le {{ advert.date|date('d/m/Y') }}
+                le {{ advert.date|date('d/mY') }}
             </li>
         {% else %}
-            <li>Pas (encore!) d'annonce</li>
+            <li>Pas (encore!) d'annonce.</li>
         {% endfor %}
     </ul>
+
+    <div class="pagination">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
 {% endblock %}
 
 

@@ -18,5 +18,17 @@ services:
       - locale
       - 50
 
+  oc_platform.advert_repository:
+    class : Doctrine\ORM\AdvertRepository
+    factory : ["@doctrine.orm.entity_manager", getRepository]
+    arguments :
+      - OC\PlatformBundle\Entity\Advert
+
+  oc_platform.purger.advert_purger:
+    class : OC\PlatformBundle\Purger\AdvertPurger
+    arguments:
+      - "@doctrine.orm.entity_manager"
+
+
 
 
