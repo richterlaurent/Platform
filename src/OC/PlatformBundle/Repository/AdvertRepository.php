@@ -21,14 +21,18 @@ class AdvertRepository extends EntityRepository
         return $qb;
     }
 
-    // return a Query Builder selecting every advert (with advert skills and categories)
-    // that has no application at all
-    public function getAdvertsWithoutApplicationQueryBuilder(){
+    // return list of every advert (with advert skills)
+    // that has no application at all and with updatedAt or creation date if no update
+    // before the date in parameter
+    public function getAdvertsBefore($date){
         $qb = $this->createQueryBuilder('a')
             ->leftJoin('a.advertSkills','advs')->addSelect('advs')
-            ->leftJoin('a.categories','c')->addSelect('c')
-            ->where('a.nbApplications = 0');
-        return $qb;
+            ->where('a.updatedAt <= :date')
+            ->orWhere('a.updatedAt IS NULL AND a.date <= :date')
+            ->andWhere('a.applications IS EMPTY')
+            ->setParameter('date',$date);
+
+        return $qb->getQuery()->getResult();
     }
 
 

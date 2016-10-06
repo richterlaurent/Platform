@@ -35,27 +35,23 @@ class AdvertPurger
      */
     public function purge($days)
     {
-        // return a queryBuilder that gets every advert with no applications
-        $qb = $this->em->getRepository('OCPlatformBundle:Advert')->getAdvertsWithoutApplicationQueryBuilder();
 
-        // adds a filter regarding the number of days
-        $qb->andWhere('a.date < :end')
-            ->setParameter('end', new \DateTime("-$days days"));
+        $date = new \DateTime("-$days days");
 
-        $listAdverts = $qb->getQuery()->getResult();
+        $listAdverts = $this->em->getRepository('OCPlatformBundle:Advert')->getAdvertsBefore($date);
 
         // gets the total a adverts finally selected
         $count = count($listAdverts);
 
         // removes everything before being able to delete the advert entity (foreign keys)
         foreach($listAdverts as $advert){
-            foreach($advert->getAdvertSkills() as $advertSkill){
-                $advert->removeAdvertSkill($advertSkill);
+
+            $advertSkills = $this->em->getRepository('OCPlatformBundle:AdvertSkill')->findBy(array('advert' => $advert));
+
+            foreach($advertSkills as $advertSkill){
                 $this->em->remove($advertSkill);
             }
-            foreach($advert->getCategories() as $category){
-                $advert->removeCategory($category);
-            }
+
             $this->em->remove($advert);
         }
 
