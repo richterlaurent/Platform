@@ -14,19 +14,19 @@
 
     {% block ocplatform_body %}
 
-        {% if app.session.flashbag.has('info') %}
+        {#{% if app.session.flashbag.has('info') %}#}
 
-            {% for flash_message in app.session.flashbag.get('info') %}
-                <div class="alert alert-info alert-dismissible" role="alert">
-                    <p>Message flash : {{ flash_message }}</p>
-                    <a href="{{ path('oc_core_homepage') }}">Retour à l'accueil</a>
-                </div>
-            {% endfor %}
+            {#{% for flash_message in app.session.flashbag.get('info') %}#}
+                {#<div class="alert alert-info alert-dismissible" role="alert">#}
+                    {#<p>Message flash : {{ flash_message }}</p>#}
+                    {#<a href="{{ path('oc_core_homepage') }}">Retour à l'accueil</a>#}
+                {#</div>#}
+            {#{% endfor %}#}
 
-        {% else %}
+        {#{% else %}#}
             <h3>Nos 3 dernières annonces :</h3>
                 {{ render(controller("OCPlatformBundle:Advert:menu", {'limit': 3})) }}
-        {% endif %}
+        {#{% endif %}#}
 
 
     {% endblock %}

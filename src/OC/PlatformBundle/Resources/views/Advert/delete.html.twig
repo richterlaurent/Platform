@@ -12,13 +12,27 @@
     <h2>Supprimer une annonce</h2>
 
     <p>
-        Vous êtes sur le point de supprimer une annonce.
-        Cette action est irréversible. Etes-vous sûr de vous.. ?
+        Vous êtes sur le point de supprimer l'annonce : "{{ advert.title }}".
+        Cette action est irréversible. Etes-vous sûr de vouloir continuer ?
     </p>
 
-    <a href="{{ path('oc_platform_view', {'id':advert.id}) }}" class="btn btn-default">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-        Retour à l'annonce
-    </a>
+    <form action="{{ path('oc_platform_delete', {'id':advert.id }) }}" method="post">
+
+        <a href="{{ path('oc_platform_view', {'id':advert.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour à l'annonce
+        </a>
+
+        <input type="submit" value="Supprimer" class="btn btn-danger"/>
+
+        {{ form_rest(form) }}
+
+    </form>
+
+
+    {#<a href="{{ path('oc_platform_view', {'id':advert.id}) }}" class="btn btn-default">#}
+        {#<i class="glyphicon glyphicon-chevron-left"></i>#}
+        {#Retour à l'annonce#}
+    {#</a>#}
 
 {% endblock %}

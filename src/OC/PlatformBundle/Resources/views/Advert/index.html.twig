@@ -9,6 +9,15 @@
 {% block ocplatform_body %}
     <h2>Liste des annonces</h2>
 
+    {% if app.session.flashbag.has('info') %}
+        {% for flash_message in app.session.flashbag.get('info') %}
+            <div class="alert alert-info alert-dismissible" role="alert">
+                <p>{{ flash_message }}</p>
+                {#<a href="{{ path('oc_core_homepage') }}">Retour à l'accueil</a>#}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <ul>
         {% for advert in pagination %}
             <li>

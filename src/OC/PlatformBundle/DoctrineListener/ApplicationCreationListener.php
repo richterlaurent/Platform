@@ -35,7 +35,7 @@ class ApplicationCreationListener
         try {
             $this->applicationMailer->sendNewNotification($entity);
         }catch(\Swift_RfcComplianceException $e){
-//            echo $e->getMessage();
+            echo $e->getMessage();
             // à voir ce qu'il faut faire exactement ici pour avoir un templating correct en cas d'erreur.
         }
     }

@@ -8,9 +8,21 @@
 
 {% block ocplatform_body %}
 
+    {% if app.session.flashbag.has('info') %}
+        {% for flash_message in app.session.flashbag.get('info') %}
+            <div class="alert alert-info alert-dismissible" role="alert">
+                <p>{{ flash_message }}</p>
+                {#<a href="{{ path('oc_core_homepage') }}">Retour à l'accueil</a>#}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <h2>{{ advert.title }}</h2>
+
     {% if advert.image is not null %}
-        <img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}"/>
+        <img src="{{ asset(advert.image.getWebPath) }}"
+             alt="{{ advert.image.alt }}"
+        />
     {% endif %}
     <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
 
